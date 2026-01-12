@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Web LLM (Ollama)</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="wrap">
+    <h1>Web LLM (Ollama)</h1>
+
+    <div class="panel">
+      <label>
+        Модель:
+        <input id="model" value="llama3.1" placeholder="llama3.1" />
+      </label>
+
+      <label>
+        Температура:
+        <input id="temperature" type="number" step="0.1" min="0" max="2" value="0.7" />
+      </label>
+
+      <label>
+        Макс. длина ответа:
+        <input id="maxTokens" type="number" min="1" max="4096" value="512" />
+      </label>
+
+      <label class="inline">
+        <input id="keepHistory" type="checkbox" checked />
+        История чата
+      </label>
+
+      <button id="resetBtn" class="secondary">Сбросить историю</button>
+    </div>
+
+    <div id="chat" class="chat"></div>
+
+    <form id="form" class="composer">
+      <input id="question" placeholder="Введите вопрос..." autocomplete="off" />
+      <button id="sendBtn" type="submit">Отправить</button>
+    </form>
+
+    <div id="status" class="status"></div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
