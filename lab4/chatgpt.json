@@ -1,0 +1,26 @@
+{
+  "language": "ru",
+  "prompts": [
+    {
+      "id": "S1_SENTIMENT",
+      "name": "Определение тональности отзыва",
+      "version": "1.0",
+      "inputs": ["review_text"],
+      "prompt": "Ты — аналитик отзывов. Проанализируй текст отзыва и определи тональность. Классы: positive, neutral, negative, mixed.\n\nПравила:\n- Если в отзыве есть и явные плюсы, и явные минусы — ставь mixed.\n- Если текст слишком короткий/неинформативный — ставь neutral и понижай confidence.\n- Не выдумывай фактов, опирайся только на текст.\n\nВерни результат СТРОГО в JSON:\n{\n  \"sentiment\": \"positive|neutral|negative|mixed\",\n  \"confidence\": 0.0,\n  \"rationale\": \"краткое объяснение 1–2 предложения\"\n}\n\nТекст отзыва:\n{{review_text}}"
+    },
+    {
+      "id": "S2_PROS",
+      "name": "Тональность + ключевые преимущества",
+      "version": "1.0",
+      "inputs": ["review_text"],
+      "prompt": "Ты — аналитик отзывов. Проанализируй текст отзыва.\n\n1) Определи тональность: positive, neutral, negative, mixed.\n2) Извлеки ключевые преимущества (benefits), которые явно упомянуты в тексте.\n\nПравила:\n- Не добавляй того, чего нет в тексте.\n- Формулируй aspect кратко (2–5 слов).\n- evidence — короткий фрагмент/цитата из отзыва (до 15–25 слов).\n- importance: high/medium/low по силе и значимости упоминания.\n- Если преимуществ нет — верни пустой массив.\n\nВерни результат СТРОГО в JSON:\n{\n  \"sentiment\": \"positive|neutral|negative|mixed\",\n  \"confidence\": 0.0,\n  \"benefits\": [\n    { \"aspect\": \"...\", \"evidence\": \"...\", \"importance\": \"high|medium|low\" }\n  ]\n}\n\nТекст отзыва:\n{{review_text}}"
+    },
+    {
+      "id": "S3_PROS_CONS",
+      "name": "Тональность + преимущества + недостатки",
+      "version": "1.1",
+      "inputs": ["review_text"],
+      "prompt": "Ты — аналитик отзывов. Проанализируй текст отзыва.\n\nЗадачи:\n1) Определи тональность: positive, neutral, negative, mixed.\n2) Извлеки преимущества (benefits) и недостатки (drawbacks), которые явно присутствуют в тексте.\n\nПравила:\n- Не выдумывай: извлекай только то, что сказано в отзыве.\n- aspect — кратко (2–5 слов).\n- evidence — короткая цитата/фрагмент (до 15–25 слов).\n- benefits.importance: high/medium/low.\n- drawbacks.severity: high/medium/low (насколько критично по смыслу).\n- Если преимуществ или недостатков нет — верни пустой массив для соответствующего поля.\n- Если есть и плюсы, и минусы — sentiment = mixed.\n- Если текст неинформативный — sentiment = neutral и низкий confidence.\n\nВерни результат СТРОГО в JSON:\n{\n  \"sentiment\": \"positive|neutral|negative|mixed\",\n  \"confidence\": 0.0,\n  \"benefits\": [\n    { \"aspect\": \"...\", \"evidence\": \"...\", \"importance\": \"high|medium|low\" }\n  ],\n  \"drawbacks\": [\n    { \"aspect\": \"...\", \"evidence\": \"...\", \"severity\": \"high|medium|low\" }\n  ]\n}\n\nТекст отзыва:\n{{review_text}}"
+    }
+  ]
+}
